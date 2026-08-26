@@ -36,4 +36,20 @@ public class UsuariosController : ControllerBase
         var nuevoUsuario = await _usuarioService.CrearAsync(dto);
         return CreatedAtAction(nameof(GetById), new { id = nuevoUsuario.Id }, nuevoUsuario);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] ActualizarUsuarioDto dto)
+    {
+        var actualizado = await _usuarioService.ActualizarAsync(id, dto);
+        if (!actualizado) return NotFound();
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var eliminado = await _usuarioService.EliminarAsync(id);
+        if (!eliminado) return NotFound();
+        return NoContent();
+    }
 }

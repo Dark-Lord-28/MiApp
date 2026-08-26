@@ -54,4 +54,25 @@ public class UsuarioService : IUsuarioService
             FechaCreacion = nuevoUsuario.FechaCreacion
         };
     }
+
+    public async Task<bool> ActualizarAsync(int id, ActualizarUsuarioDto dto)
+    {
+        var usuario = await _repository.GetByIdAsync(id);
+        if (usuario == null) return false;
+
+        usuario.ActualizarNombre(dto.Nombre);
+        _repository.Update(usuario);
+        await _repository.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> EliminarAsync(int id)
+    {
+        var usuario = await _repository.GetByIdAsync(id);
+        if (usuario == null) return false;
+
+        _repository.Delete(usuario);
+        await _repository.SaveChangesAsync();
+        return true;
+    }
 }
