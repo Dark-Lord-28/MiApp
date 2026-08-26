@@ -1,9 +1,11 @@
 namespace MiApp.WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiApp.Application.DTOs;
 using MiApp.Application.Interfaces;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UsuariosController : ControllerBase
@@ -30,6 +32,7 @@ public class UsuariosController : ControllerBase
         return Ok(usuario);
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CrearUsuarioDto dto)
     {

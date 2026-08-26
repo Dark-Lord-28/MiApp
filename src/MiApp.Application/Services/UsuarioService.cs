@@ -42,7 +42,7 @@ public class UsuarioService : IUsuarioService
 
     public async Task<UsuarioDto> CrearAsync(CrearUsuarioDto dto)
     {
-        var nuevoUsuario = new Usuario(dto.Nombre, dto.Email);
+        var nuevoUsuario = new Usuario(dto.Nombre, dto.Email, dto.Password);
         await _repository.AddAsync(nuevoUsuario);
         await _repository.SaveChangesAsync();
 
