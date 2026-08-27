@@ -18,6 +18,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")] // Solo accesible por Administradores
     public async Task<IActionResult> GetAll()
     {
         var usuarios = await _usuarioService.ObtenerTodosAsync();
@@ -49,6 +50,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")] // Solo accesible por Administradores
     public async Task<IActionResult> Delete(int id)
     {
         var eliminado = await _usuarioService.EliminarAsync(id);

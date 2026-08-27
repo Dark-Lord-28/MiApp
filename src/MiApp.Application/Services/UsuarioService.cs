@@ -22,6 +22,7 @@ public class UsuarioService : IUsuarioService
             Id = u.Id,
             Nombre = u.Nombre,
             Email = u.Email,
+            Rol = u.Rol,
             FechaCreacion = u.FechaCreacion
         });
     }
@@ -36,13 +37,14 @@ public class UsuarioService : IUsuarioService
             Id = usuario.Id,
             Nombre = usuario.Nombre,
             Email = usuario.Email,
+            Rol = usuario.Rol,
             FechaCreacion = usuario.FechaCreacion
         };
     }
 
     public async Task<UsuarioDto> CrearAsync(CrearUsuarioDto dto)
     {
-        var nuevoUsuario = new Usuario(dto.Nombre, dto.Email, dto.Password);
+        var nuevoUsuario = new Usuario(dto.Nombre, dto.Email, dto.Password, dto.Rol);
         await _repository.AddAsync(nuevoUsuario);
         await _repository.SaveChangesAsync();
 
@@ -51,6 +53,7 @@ public class UsuarioService : IUsuarioService
             Id = nuevoUsuario.Id,
             Nombre = nuevoUsuario.Nombre,
             Email = nuevoUsuario.Email,
+            Rol = nuevoUsuario.Rol,
             FechaCreacion = nuevoUsuario.FechaCreacion
         };
     }

@@ -6,13 +6,14 @@ public class Usuario
     public string Nombre { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
     public string PasswordHash { get; private set; } = string.Empty;
+    public string Rol { get; private set; } = "User";
     public DateTime FechaCreacion { get; private set; }
 
     // Constructor privado requerido por EF Core
     private Usuario() { }
 
     // Constructor de Dominio
-    public Usuario(string nombre, string email, string password)
+    public Usuario(string nombre, string email, string password, string rol = "User")
     {
         if (string.IsNullOrWhiteSpace(nombre))
             throw new ArgumentException("El nombre no puede estar vacío.", nameof(nombre));
@@ -26,6 +27,7 @@ public class Usuario
         Nombre = nombre;
         Email = email;
         PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
+        Rol = string.IsNullOrWhiteSpace(rol) ? "User" : rol;
         FechaCreacion = DateTime.UtcNow;
     }
 

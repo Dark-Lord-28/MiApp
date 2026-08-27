@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -5,9 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MiApp.Application.Interfaces;
 using MiApp.Application.Services;
+using MiApp.Application.Orders.Commands;
 using MiApp.Domain.Interfaces;
 using MiApp.Infrastructure.Persistence;
 using MiApp.Infrastructure.Repositories;
+using MiApp.Infrastructure.Clients;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +20,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Registro de Inyección de Dependencias
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IOrdenRepository, OrdenRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Registrar MediatR escaneando el ensamblado de Application
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CrearOrdenCommand).Assembly));
 
 // Configurar Autenticación JWT
 var jwtKey = builder.Configuration["JwtSettings:SecretKey"]!;
@@ -37,7 +44,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
         ValidAudience = builder.Configuration["JwtSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+        RoleClaimType = ClaimTypes.Role // Asegura que .NET lea el ClaimTypes.Role correctamente
     };
 });
 
@@ -73,6 +81,13 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
+});
+
+// Registrar Typed HttpClient para PaymentService
+builder.Services.AddHttpClient<IPaymentClient, PaymentClient>(c =>
+{
+    c.BaseAddress = new Uri(builder.Configuration["Services:Payment"]!);
+    c.Timeout = TimeSpan.FromSeconds(10);
 });
 
 var app = builder.Build();
