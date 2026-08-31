@@ -17,6 +17,7 @@ public class CrearOrdenCommandHandler : IRequestHandler<CrearOrdenCommand, Orden
         _paymentClient = paymentClient;
     }
 
+    //Caso de uso
     public async Task<OrdenResponseDto> Handle(CrearOrdenCommand request, CancellationToken cancellationToken)
     {
         // 1. Crear la orden inicialmente en estado Pending

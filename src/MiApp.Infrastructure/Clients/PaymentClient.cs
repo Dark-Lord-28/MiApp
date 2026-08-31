@@ -27,8 +27,8 @@ public class PaymentClient : IPaymentClient
         }
         catch
         {
-            // Si PaymentService está caído o da Timeout
+            // Si PaymentService está caido o da timeout
             return null;
         }
     }
-}
+} 

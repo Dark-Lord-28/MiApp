@@ -1,7 +1,7 @@
 namespace MiApp.Domain.Interfaces;
 
 using MiApp.Domain.Entities;
-
+ 
 public interface IOrdenRepository
 {
     Task AddAsync(Orden orden);

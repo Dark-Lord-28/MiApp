@@ -1,4 +1,4 @@
-namespace MiApp.Infrastructure.Repositories;
+namespace MiApp.Infrastructure.Repositories; 
 
 using MiApp.Domain.Entities;
 using MiApp.Domain.Interfaces;
@@ -16,6 +16,7 @@ public class OrdenRepository : IOrdenRepository
     public async Task AddAsync(Orden orden)
     {
         await _context.Set<Orden>().AddAsync(orden);
+        //Aqui se prepara todo para guardar en la base de datos
         await _context.SaveChangesAsync();
     }
 
@@ -27,6 +28,7 @@ public class OrdenRepository : IOrdenRepository
     public async Task UpdateAsync(Orden orden)
     {
         _context.Set<Orden>().Update(orden);
+        //Aqui se prepara todo para guardar en la base de datos
         await _context.SaveChangesAsync();
     }
 }

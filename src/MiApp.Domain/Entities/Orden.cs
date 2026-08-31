@@ -1,6 +1,6 @@
 namespace MiApp.Domain.Entities;
 
-public class Orden
+public class Orden 
 {
     public int Id { get; private set; }
     public int UsuarioId { get; private set; }

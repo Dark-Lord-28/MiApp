@@ -27,13 +27,13 @@ Como ejecutar el proyecto:
 1. Levantar PaymentService:
 ```bash
 cd PaymentService
-dotnet run --project src/PaymentService.WebApi --urls "http://localhost:5005"
+dotnet run --project src/PaymentService.WebApi ("http://localhost:5005")
 
 ```
 2. Levantar MiApp WebAPI:
 ```bash
 cd MiApp
-dotnet run --project src/MiApp.WebApi --urls "http://localhost:5004"
+dotnet run --project src/MiApp.WebApi ("http://localhost:5004")
 
 ```
 

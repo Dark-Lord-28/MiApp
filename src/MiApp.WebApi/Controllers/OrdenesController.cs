@@ -8,7 +8,7 @@ using MiApp.Application.Orders.Commands;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]")]
+[Route("api/[controller]")] 
 public class OrdenesController : ControllerBase
 {
     private readonly IMediator _mediator;
