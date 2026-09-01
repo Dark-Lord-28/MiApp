@@ -1,6 +1,7 @@
+using MediatR;
+using MiApp.Application.DTOs;
+using MiApp.Domain.Entities;
+
 namespace MiApp.Application.Orders.Commands;
 
-using MediatR;
-using MiApp.Application.DTOs.Orders;
-
-public record CrearOrdenCommand(int UsuarioId, decimal MontoTotal) : IRequest<OrdenResponseDto>;
+public record CrearOrdenCommand(CrearOrdenDto Dto) : IRequest<Orden>;

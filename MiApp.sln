@@ -5,27 +5,20 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A92B0D85-0CE6-4A71-A9F2-536B09DBEE38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiApp.Domain", "src\MiApp.Domain\MiApp.Domain.csproj", "{7DCF9317-903E-40B5-A852-0236302161C6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiApp.Application", "src\MiApp.Application\MiApp.Application.csproj", "{63CF18F5-28FC-4D77-8EDC-D53782DC6F31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiApp.Infrastructure", "src\MiApp.Infrastructure\MiApp.Infrastructure.csproj", "{FE8E1B71-0313-4538-8984-6681F519A09F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiApp.WebApi", "src\MiApp.WebApi\MiApp.WebApi.csproj", "{AAF39A58-0956-48CC-97BA-03131C4E65CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiApp.Domain", "src\MiApp.Domain\MiApp.Domain.csproj", "{34F0B3A0-439A-437D-AAB9-54C347D4FBEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7DCF9317-903E-40B5-A852-0236302161C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DCF9317-903E-40B5-A852-0236302161C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DCF9317-903E-40B5-A852-0236302161C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DCF9317-903E-40B5-A852-0236302161C6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63CF18F5-28FC-4D77-8EDC-D53782DC6F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{63CF18F5-28FC-4D77-8EDC-D53782DC6F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63CF18F5-28FC-4D77-8EDC-D53782DC6F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,11 +31,18 @@ Global
 		{AAF39A58-0956-48CC-97BA-03131C4E65CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAF39A58-0956-48CC-97BA-03131C4E65CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAF39A58-0956-48CC-97BA-03131C4E65CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34F0B3A0-439A-437D-AAB9-54C347D4FBEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F0B3A0-439A-437D-AAB9-54C347D4FBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F0B3A0-439A-437D-AAB9-54C347D4FBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34F0B3A0-439A-437D-AAB9-54C347D4FBEF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{7DCF9317-903E-40B5-A852-0236302161C6} = {A92B0D85-0CE6-4A71-A9F2-536B09DBEE38}
 		{63CF18F5-28FC-4D77-8EDC-D53782DC6F31} = {A92B0D85-0CE6-4A71-A9F2-536B09DBEE38}
 		{FE8E1B71-0313-4538-8984-6681F519A09F} = {A92B0D85-0CE6-4A71-A9F2-536B09DBEE38}
 		{AAF39A58-0956-48CC-97BA-03131C4E65CA} = {A92B0D85-0CE6-4A71-A9F2-536B09DBEE38}
+		{34F0B3A0-439A-437D-AAB9-54C347D4FBEF} = {A92B0D85-0CE6-4A71-A9F2-536B09DBEE38}
 	EndGlobalSection
 EndGlobal

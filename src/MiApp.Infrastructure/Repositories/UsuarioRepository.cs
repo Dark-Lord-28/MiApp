@@ -1,9 +1,9 @@
-namespace MiApp.Infrastructure.Repositories;
-
 using Microsoft.EntityFrameworkCore;
 using MiApp.Domain.Entities;
 using MiApp.Domain.Interfaces;
 using MiApp.Infrastructure.Persistence;
+
+namespace MiApp.Infrastructure.Repositories;
 
 public class UsuarioRepository : IUsuarioRepository
 {
@@ -14,21 +14,39 @@ public class UsuarioRepository : IUsuarioRepository
         _context = context;
     }
 
-    public async Task<Usuario?> GetByIdAsync(int id) =>
-        await _context.Usuarios.FindAsync(id);
+    public async Task<Usuario?> GetByIdAsync(int id)
+    {
+        return await _context.Usuarios.FindAsync(id);
+    }
 
-    public async Task<IEnumerable<Usuario>> GetAllAsync() =>
-        await _context.Usuarios.ToListAsync();
+    public async Task<Usuario?> GetByEmailAsync(string email)
+    {
+        return await _context.Usuarios
+            .FirstOrDefaultAsync(u => u.Email == email);
+    }
 
-    public async Task AddAsync(Usuario usuario) =>
+    public async Task<IEnumerable<Usuario>> GetAllAsync()
+    {
+        return await _context.Usuarios.ToListAsync();
+    }
+
+    public async Task AddAsync(Usuario usuario)
+    {
         await _context.Usuarios.AddAsync(usuario);
+    }
 
-    public void Update(Usuario usuario) =>
+    public void Update(Usuario usuario)
+    {
         _context.Usuarios.Update(usuario);
+    }
 
-    public void Delete(Usuario usuario) =>
+    public void Delete(Usuario usuario)
+    {
         _context.Usuarios.Remove(usuario);
+    }
 
-    public async Task SaveChangesAsync() =>
+    public async Task SaveChangesAsync()
+    {
         await _context.SaveChangesAsync();
+    }
 }

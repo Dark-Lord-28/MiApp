@@ -1,60 +1,66 @@
-namespace MiApp.WebApi.Controllers;
-
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiApp.Application.DTOs;
-using MiApp.Application.Interfaces;
+using MiApp.Application.Usuarios.Commands;
+using MiApp.Application.Usuarios.Queries;
 
-[Authorize]
+namespace MiApp.WebApi.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
 public class UsuariosController : ControllerBase
 {
-    private readonly IUsuarioService _usuarioService;
+    private readonly IMediator _mediator;
 
-    public UsuariosController(IUsuarioService usuarioService)
+    public UsuariosController(IMediator mediator)
     {
-        _usuarioService = usuarioService;
+        _mediator = mediator;
     }
 
     [HttpGet]
-    [Authorize(Roles = "Admin")] // Solo accesible por Administradores
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAll()
     {
-        var usuarios = await _usuarioService.ObtenerTodosAsync();
-        return Ok(usuarios);
+        var result = await _mediator.Send(new ObtenerUsuariosQuery());
+        return Ok(result);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
-    {
-        var usuario = await _usuarioService.ObtenerPorIdAsync(id);
-        if (usuario == null) return NotFound();
-        return Ok(usuario);
-    }
-
-    [AllowAnonymous]
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Create([FromBody] CrearUsuarioDto dto)
     {
-        var nuevoUsuario = await _usuarioService.CrearAsync(dto);
-        return CreatedAtAction(nameof(GetById), new { id = nuevoUsuario.Id }, nuevoUsuario);
+        var command = new CrearUsuarioCommand(dto.Nombre, dto.Email, dto.Password);
+        var result = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetAll), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] ActualizarUsuarioDto dto)
+    [Authorize]
+    public async Task<IActionResult> ActualizarUsuario(int id, [FromBody] ActualizarUsuarioDto dto)
     {
-        var actualizado = await _usuarioService.ActualizarAsync(id, dto);
-        if (!actualizado) return NotFound();
-        return NoContent();
+        try
+        {
+            var exito = await _mediator.Send(new ActualizarUsuarioCommand(id, dto));
+            if (!exito)
+                return NotFound(new { mensaje = $"No se encontró el usuario con ID {id}." });
+
+            return NoContent();
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { mensaje = ex.Message });
+        }
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")] // Solo accesible por Administradores
-    public async Task<IActionResult> Delete(int id)
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> EliminarUsuario(int id)
     {
-        var eliminado = await _usuarioService.EliminarAsync(id);
-        if (!eliminado) return NotFound();
+        var exito = await _mediator.Send(new EliminarUsuarioCommand(id));
+        if (!exito)
+            return NotFound(new { mensaje = $"No se encontró el usuario con ID {id}." });
+
         return NoContent();
     }
 }

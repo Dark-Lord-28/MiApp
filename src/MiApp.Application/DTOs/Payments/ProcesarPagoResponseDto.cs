@@ -1,7 +1,6 @@
 namespace MiApp.Application.DTOs.Payments;
 
-public class ProcesarPagoResponseDto
+public record ProcesarPagoResponseDto(string Status, string? TransactionId = null)
 {
-    public string Status { get; set; } = string.Empty;
-    public string TransactionId { get; set; } = string.Empty;
+    public bool Exito => string.Equals(Status, "Approved", StringComparison.OrdinalIgnoreCase);
 }

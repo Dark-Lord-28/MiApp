@@ -1,38 +1,41 @@
 namespace MiApp.Domain.Entities;
 
-public class Orden 
+public class Orden
 {
     public int Id { get; private set; }
     public int UsuarioId { get; private set; }
     public decimal MontoTotal { get; private set; }
-    public string Estado { get; private set; } = "Pending"; // Pending | Paid | PaymentRejected
+    public string Estado { get; private set; } = "Pendiente";
     public string? TransactionId { get; private set; }
-    public DateTime FechaCreacion { get; private set; }
+    public DateTime FechaCreacion { get; private set; } = DateTime.UtcNow;
 
-    private Orden() { }
+    private readonly List<OrdenItem> _items = new();
+    public IReadOnlyCollection<OrdenItem> Items => _items.AsReadOnly();
 
-    public Orden(int usuarioId, decimal montoTotal)
+    public Orden(int usuarioId)
     {
-        if (usuarioId <= 0)
-            throw new ArgumentException("El UsuarioId no es válido.", nameof(usuarioId));
-
-        if (montoTotal <= 0)
-            throw new ArgumentException("El monto total debe ser mayor a 0.", nameof(montoTotal));
-
         UsuarioId = usuarioId;
-        MontoTotal = montoTotal;
-        FechaCreacion = DateTime.UtcNow;
-        Estado = "Pending";
+        MontoTotal = 0;
+        Estado = "Pendiente";
+    }
+
+    public void AgregarItem(Producto producto, int cantidad)
+    {
+        producto.ReducirStock(cantidad);
+        _items.Add(new OrdenItem(producto.Id, cantidad, producto.Precio));
+        MontoTotal += producto.Precio * cantidad;
     }
 
     public void MarcarComoPagada(string transactionId)
     {
-        Estado = "Paid";
+        Estado = "Aprobada";
         TransactionId = transactionId;
     }
 
     public void MarcarComoRechazada()
     {
-        Estado = "PaymentRejected";
+        Estado = "Rechazada";
     }
+
+    private Orden() { }
 }

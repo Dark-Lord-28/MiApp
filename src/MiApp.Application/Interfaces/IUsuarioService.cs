@@ -1,12 +1,9 @@
-namespace MiApp.Application.Interfaces;
-
 using MiApp.Application.DTOs;
+using MiApp.Domain.Entities;
+
+namespace MiApp.Application.Interfaces;
 
 public interface IUsuarioService
 {
-    Task<IEnumerable<UsuarioDto>> ObtenerTodosAsync();
-    Task<UsuarioDto?> ObtenerPorIdAsync(int id);
-    Task<UsuarioDto> CrearAsync(CrearUsuarioDto dto);
-    Task<bool> ActualizarAsync(int id, ActualizarUsuarioDto dto);
-    Task<bool> EliminarAsync(int id);
+    Task<Usuario> RegistrarUsuarioAsync(CrearUsuarioDto dto);
 }

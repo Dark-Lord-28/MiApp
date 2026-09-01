@@ -1,8 +1,9 @@
-namespace MiApp.Infrastructure.Repositories; 
-
+using Microsoft.EntityFrameworkCore;
 using MiApp.Domain.Entities;
 using MiApp.Domain.Interfaces;
 using MiApp.Infrastructure.Persistence;
+
+namespace MiApp.Infrastructure.Repositories;
 
 public class OrdenRepository : IOrdenRepository
 {
@@ -13,22 +14,21 @@ public class OrdenRepository : IOrdenRepository
         _context = context;
     }
 
-    public async Task AddAsync(Orden orden)
-    {
-        await _context.Set<Orden>().AddAsync(orden);
-        //Aqui se prepara todo para guardar en la base de datos
-        await _context.SaveChangesAsync();
-    }
-
     public async Task<Orden?> GetByIdAsync(int id)
     {
-        return await _context.Set<Orden>().FindAsync(id);
+        return await _context.Ordenes
+            .Include(o => o.Items)
+                .ThenInclude(i => i.Producto)
+            .FirstOrDefaultAsync(o => o.Id == id);
     }
 
-    public async Task UpdateAsync(Orden orden)
+    public async Task AddAsync(Orden orden)
     {
-        _context.Set<Orden>().Update(orden);
-        //Aqui se prepara todo para guardar en la base de datos
+        await _context.Ordenes.AddAsync(orden);
+    }
+
+    public async Task SaveChangesAsync()
+    {
         await _context.SaveChangesAsync();
     }
 }
